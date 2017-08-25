@@ -11,7 +11,6 @@ const Element = require('./Element');
 
 /**
  * 一段文本（目前仅支持横向）
- * FIXME 暂时不支持中文
  *
  * hello world，这个是一个控制台图标库
  */
