@@ -2,6 +2,8 @@
  * Created by hustcc.
  */
 
+const iu = require('immutability-util');
+const VT = require('variable-type');
 
 const Chart = require('./Chart');
 const invariant = require('../utils/invariant');
@@ -9,6 +11,7 @@ const RectText = require('../core/RectText');
 const Point = require('../core/Point');
 const { wordWidth } = require('../utils/string');
 const { round } = require('../utils/number');
+const { TABLE_DATA_TYPE } = require('../const');
 
 /**
  * 表格
@@ -70,14 +73,13 @@ class Table extends Chart {
   // 填充数据（对于有空缺的数据）
   // 并将数据转换为 string
   _fullFillData = (data, row, col) => {
-    const result = [];
+    const iuData = iu(data);
     for (let r = 0; r < row; r += 1) {
-      result[r] = [];
       for (let c = 0; c < col; c += 1) {
-         result[r][c] = data[r][c] !== undefined ? data[r][c].toString() : '';
+         iuData.$set([r.toString(), c.toString()], data[r][c] !== undefined ? data[r][c].toString() : '');
       }
     }
-    return result;
+    return iuData.value();
   };
 
   _calTableSizes = (colSizes, row, col) => {
@@ -91,6 +93,10 @@ class Table extends Chart {
   };
 
   setData = (data) => {
+    invariant(
+      VT.check(data, TABLE_DATA_TYPE),
+      'TCharts: data of `Table` chart should be type of Array.'
+    );
     const { row, col } = this._getRowAndCol(data);
     const updatedData = this._fullFillData(data, row, col);
     this.data = updatedData;
