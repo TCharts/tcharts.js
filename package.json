@@ -59,7 +59,8 @@
     "fixed-round": "^0.0.1",
     "immutability-util": "^0.0.4",
     "variable-type": "^0.1.1",
-    "what.js": "^1.0.1"
+    "what.js": "^1.0.1",
+    "word-width": "^1.0.1"
   },
   "jest": {
     "testRegex": "(/__tests__/index)\\.(ts|tsx|js)$",
