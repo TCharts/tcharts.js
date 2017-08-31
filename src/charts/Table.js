@@ -2,8 +2,6 @@
  * Created by hustcc.
  */
 
-const iu = require('immutability-util');
-const VT = require('variable-type');
 
 const Chart = require('./Chart');
 const invariant = require('../utils/invariant');
@@ -11,7 +9,6 @@ const RectText = require('../core/RectText');
 const Point = require('../core/Point');
 const { wordWidth } = require('../utils/string');
 const { round } = require('../utils/number');
-const { TABLE_DATA_TYPE } = require('../const');
 
 /**
  * 表格
@@ -71,16 +68,16 @@ class Table extends Chart {
   };
 
   // 填充数据（对于有空缺的数据）
+  // 并将数据转换为 string
   _fullFillData = (data, row, col) => {
-    const iuData = iu(data);
-    // 遍历来填充数据
-    data.forEach((d, index) => {
-      if (col > d.length) {
-        // 补充一些空的文本
-        iuData.$push([index], new Array(col - d.length).fill(''));
+    const result = [];
+    for (let r = 0; r < row; r += 1) {
+      result[r] = [];
+      for (let c = 0; c < col; c += 1) {
+         result[r][c] = data[r][c] !== undefined ? data[r][c].toString() : '';
       }
-    });
-    return iuData.value();
+    }
+    return result;
   };
 
   _calTableSizes = (colSizes, row, col) => {
@@ -94,10 +91,6 @@ class Table extends Chart {
   };
 
   setData = (data) => {
-    invariant(
-      VT.check(data, TABLE_DATA_TYPE),
-      'TCharts: data of `Table` chart should be type of matrix Array.'
-    );
     const { row, col } = this._getRowAndCol(data);
     const updatedData = this._fullFillData(data, row, col);
     this.data = updatedData;
