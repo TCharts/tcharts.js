@@ -76,7 +76,8 @@ class Table extends Chart {
     const iuData = iu(data);
     for (let r = 0; r < row; r += 1) {
       for (let c = 0; c < col; c += 1) {
-         iuData.$set([r.toString(), c.toString()], data[r][c] !== undefined ? data[r][c].toString() : '');
+        const value = data[r][c] === undefined || data[r][c] === null ? '' : data[r][c].toString();
+        iuData.$set([r.toString(), c.toString()], value);
       }
     }
     return iuData.value();

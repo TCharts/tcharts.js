@@ -23,7 +23,12 @@ const HBAR_DATA_TYPE = COMMON_TYPE;
 
 const TABLE_DATA_TYPE = VT.arrayOf(
   VT.arrayOf(
-    VT.any
+    VT.or([
+      VT.string,
+      VT.number,
+      VT.bool,
+      VT.null
+    ])
   ),
 );
 
