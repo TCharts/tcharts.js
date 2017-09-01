@@ -96,7 +96,7 @@ class Table extends Chart {
   setData = (data) => {
     invariant(
       VT.check(data, TABLE_DATA_TYPE),
-      'TCharts: data of `Table` chart should be type of Array.'
+      'TCharts: data of `Table` chart should be type of matrix Array.'
     );
     const { row, col } = this._getRowAndCol(data);
     const updatedData = this._fullFillData(data, row, col);
