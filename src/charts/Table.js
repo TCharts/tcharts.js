@@ -71,15 +71,15 @@ class Table extends Chart {
   };
 
   // 填充数据（对于有空缺的数据）
+  // 并将数据转换为 string
   _fullFillData = (data, row, col) => {
     const iuData = iu(data);
-    // 遍历来填充数据
-    data.forEach((d, index) => {
-      if (col > d.length) {
-        // 补充一些空的文本
-        iuData.$push([index], new Array(col - d.length).fill(''));
+    for (let r = 0; r < row; r += 1) {
+      for (let c = 0; c < col; c += 1) {
+        const value = data[r][c] === undefined || data[r][c] === null ? '' : data[r][c].toString();
+        iuData.$set([r.toString(), c.toString()], value);
       }
-    });
+    }
     return iuData.value();
   };
 
